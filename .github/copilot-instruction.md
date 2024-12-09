@@ -1,0 +1,1 @@
+We are developing a lock management system using a React Native app built with Expo. The app leverages Tamagui for its components and focuses on functionality that allows users to authenticate from a desktop application by scanning a QR code, followed by manually signing their approval within the app.
