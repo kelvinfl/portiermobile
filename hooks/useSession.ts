@@ -80,6 +80,17 @@ const useAuthStore = create<AuthState>((set, get) => ({
       }
     }
   },
+
+  signOut: async () => {
+    try {
+      const { remove } = useStorage(); // Access remove function from useStorage
+      await remove(TOKEN_STORAGE_KEY); // Remove token from storage
+      set({ user: null, access_token: null }); // Reset state
+      console.log("Successfully signed out and token removed.");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  },
   authenticate: async (token?: string) => {
     const accessToken = token || get().access_token;
     if (!accessToken) {

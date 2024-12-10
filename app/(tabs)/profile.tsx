@@ -48,63 +48,78 @@ export default function ProfileScreen() {
   };
 
   const handleLogout = async () => {
-    console.log("terteken");
-    // Hapus data session (misalnya token atau informasi pengguna) menggunakan remove
-    await remove('auth_access_token');  // Pastikan 'auth_access_token' adalah kunci yang digunakan untuk menyimpan session
-    router.push('../');  // Redirect ke halaman index setelah logout
+    await remove('auth_access_token'); // Hapus session
+    router.push('/');
+  };
+
+  // Jika tidak ada session, tampilkan tombol Sign In
+  const handleSignIn = () => {
+    router.push('/');  // Arahkan ke halaman login jika belum login
   };
 
   return (
     <View px="$3.5" py="$2.5" gap="$3.5">
-      <UserCard session={session} />
-      <H4>{t('general')}</H4>
+      {session ? (
+        <>
+          <UserCard session={session} />
+          <H4>{t('general')}</H4>
 
-      <YGroup alignSelf="center" bordered width={"100%"} size="$4">
-        <YGroup.Item>
-          <ListItem
-            hoverTheme
-            icon={<Notification color={Colors.black} />}
-            title={t('notification')}
-            subTitle={t('allowNotification', { appName: App.name })}
-            iconAfter={
-              <Switch size="$2">
-                <Switch.Thumb animation="quicker" />
-              </Switch>
-            }
-          />
-        </YGroup.Item>
-      </YGroup>
+          {/* <YGroup alignSelf="center" bordered width={"100%"} size="$4">
+            <YGroup.Item>
+              <ListItem
+                hoverTheme
+                icon={<Notification color={Colors.black} />}
+                title={t('notification')}
+                subTitle={t('allowNotification', { appName: App.name })}
+                iconAfter={
+                  <Switch size="$2">
+                    <Switch.Thumb animation="quicker" />
+                  </Switch>
+                }
+              />
+            </YGroup.Item>
+          </YGroup> */}
 
-      <YGroup alignSelf="center" bordered width={"100%"} size="$4">
-        <YGroup.Item>
-          <ListItem
-            hoverTheme
-            title={t('language')}
-            subTitle=  {t('currentLanguage', { language: language === 'en' ? 'English' : 'Deutsch' })}
-            iconAfter={
-              <Switch
-                size="$2"
-                defaultChecked={language === 'de'}
-                onCheckedChange={(checked) => handleLanguageChange(checked ? 'de' : 'en')}
-              >
-                <Switch.Thumb animation="quicker" />
-              </Switch>
-            }
-          />
-        </YGroup.Item>
-      </YGroup>
+          <YGroup alignSelf="center" bordered width={"100%"} size="$4">
+            <YGroup.Item>
+              <ListItem
+                hoverTheme
+                title={t('language')}
+                subTitle={t('currentLanguage', { language: language === 'en' ? 'English' : 'Deutsch' })}
+                iconAfter={
+                  <Switch
+                    size="$2"
+                    defaultChecked={language === 'de'}
+                    onCheckedChange={(checked) => handleLanguageChange(checked ? 'de' : 'en')}
+                  >
+                    <Switch.Thumb animation="quicker" />
+                  </Switch>
+                }
+              />
+            </YGroup.Item>
+          </YGroup>
 
-      {session && (
-        <View gap="$3.5">
-          <H4>{t('account')}</H4>
+          <View gap="$3.5">
+            <H4>{t('account')}</H4>
+            <Button
+              bordered
+              backgroundColor="red"
+              borderColor="red"
+              icon={<LogoutCurve color="red" />}
+              onPress={handleLogout}  // Panggil handleLogout saat tombol logout diklik
+            >
+              {t('signOut')}
+            </Button>
+          </View>
+        </>
+      ) : (
+        // Jika belum login, tampilkan tombol Sign In
+        <View>
           <Button
             bordered
-            backgroundColor="red"
-            borderColor="red"
-            icon={<LogoutCurve color="red" />}
-            onPress={handleLogout}  // Panggil handleLogout saat tombol logout diklik
+            onPress={handleSignIn} // Arahkan ke halaman login
           >
-            {t('signOut')}
+            {t('signIn')}
           </Button>
         </View>
       )}
