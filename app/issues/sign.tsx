@@ -67,7 +67,7 @@ export default function SignScreen() {
 
       try {
         const response = await fetch(
-          `https://kotg-server-531186732263.asia-southeast2.run.app/api/v1/key-otg/sign/${token}?token=${token}`,
+          `http://192.168.1.33:1323/api/v1/key-otg/sign/${token}?token=${token}`,
           {
             headers: {
               'X-Portier-Agent': X_PORTIER_AGENT,
@@ -163,7 +163,7 @@ export default function SignScreen() {
 
       // Request without authorization
       const responseWithoutAuth = await fetch(
-        `https://kotg-server-531186732263.asia-southeast2.run.app/api/v1/key-otg/sign/${token}?token=${token}`,
+        `http://192.168.1.33:1323/api/v1/key-otg/sign/${token}?token=${token}`,
         {
           method: 'POST',
           headers: {
@@ -197,7 +197,7 @@ export default function SignScreen() {
       // Request with authorization
       if (token2) {
         const responseWithAuth = await fetch(
-          `https://kotg-server-531186732263.asia-southeast2.run.app/api/v1/key-otg/auth/sign/${token}`,
+          `http://192.168.1.33:1323/api/v1/key-otg/auth/sign/${token}`,
           {
             method: 'POST',
             headers: {

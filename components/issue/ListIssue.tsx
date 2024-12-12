@@ -62,76 +62,68 @@ export function ListIssue({ accessTokens, history }: ListIssueProps) {
   const fetchData = async () => {
     setLoading(true);
     let url = "";
-
-    if (accessTokens) {
-      url =
-        "https://kotg-server-531186732263.asia-southeast2.run.app/api/v1/key-otg/auth/sign";
-      console.log(accessTokens);
-    } else {
-      console.log("history tanpa login");
-      const savedRequestIds = localStorage.getItem("requestIds");
-      console.log("list request id", savedRequestIds);
-
-      if (savedRequestIds) {
-        const requestIds = JSON.parse(savedRequestIds);
-        const requestIdList = requestIds.join(","); // Use request_ids
-        url = `https://kotg-server-531186732263.asia-southeast2.run.app/api/v1/key-otg/sign/${requestIdList}?token=${requestIdList}`;
-        console.log(url);
-      } else {
-        setError("No request IDs found in localStorage.");
-        console.log("No request IDs found.");
-        return;
-      }
-    }
-
+  
     try {
+      if (accessTokens) {
+        url = "http://192.168.1.33:1323/api/v1/key-otg/auth/sign"; // Ganti dengan IP server
+        console.log("Access token detected:", accessTokens);
+      } else {
+        console.log("Fetching without access token...");
+        const savedRequestIds = localStorage.getItem("requestIds");
+        if (savedRequestIds) {
+          const requestIds = JSON.parse(savedRequestIds);
+          const requestIdList = requestIds.join(",");
+          url = `http://192.168.1.33:1323/api/v1/key-otg/sign/${requestIdList}?token=${requestIdList}`;
+          console.log("Generated URL:", url);
+        } else {
+          throw new Error("No request IDs found in localStorage.");
+        }
+      }
+  
       const response = await fetch(url, {
         headers: accessTokens
-          ? {
-              Authorization: `Bearer ${accessTokens}`,
-            }
-          : {
-              "X-Portier-Agent": X_PORTIER_AGENT, // Add X-Portier-Agent header when no accessTokens are used
-            },
+          ? { Authorization: `Bearer ${accessTokens}` }
+          : { "X-Portier-Agent": X_PORTIER_AGENT },
       });
-
+  
+      if (!response.ok) {
+        console.error("API Error:", response.statusText);
+        throw new Error(`Failed to fetch data: ${response.statusText}`);
+      }
+  
       const result = await response.json();
-
-      if (response.ok && result.data) {
-        let issues = result.data.map((item: any) => ({
-          issueId: item.request_id,
-          name: item.holder_name,
-          description: item.notes,
-          status: item.status || "pending",
-          type: item.type || "unknown",
-        }));
-
-        // Filter unique issues by `request_id`
-        const uniqueIssues = Array.from(
-          new Map(issues.map((issue) => [issue.issueId, issue])).values()
-        );
-
-        // If history is true, show all unique issues (no filter)
-        if (history) {
-          setData(uniqueIssues);
-        } else {
-          // If history is false, only show "pending" unique issues
-          const filteredIssues = uniqueIssues.filter(
-            (issue) => issue.status === "pending"
-          );
-          setData(filteredIssues);
-        }
-      } else {
-        setError("Failed to fetch data.");
+      console.log("Fetched data:", result);
+  
+      if (result.data) {
+        // Mengelompokkan data berdasarkan request_id
+        const groupedIssues = result.data.reduce((acc, item) => {
+          if (!acc[item.request_id]) {
+            acc[item.request_id] = {
+              issueId: item.request_id,
+              name: item.holder_name,
+              description: item.notes,
+              status: item.status || "pending",
+              type: item.type || "unknown",
+            };
+          }
+          return acc;
+        }, {});
+  
+        // Mengonversi objek kembali menjadi array
+        const uniqueIssues = Object.values(groupedIssues);
+  
+        // Menyaring data berdasarkan status jika diperlukan
+        setData(history ? uniqueIssues : uniqueIssues.filter((i) => i.status === "pending"));
       }
     } catch (error) {
-      setError("Error fetching issues.");
-      console.error("Error fetching issues:", error);
+      console.error("Fetch error:", error.message);
+      setError(error.message);
     } finally {
       setLoading(false);
-      setRefreshing(false); // Stop refreshing when done
+      setRefreshing(false);
     }
   };
+  
 
   const handleRefresh = () => {
     setRefreshing(true);

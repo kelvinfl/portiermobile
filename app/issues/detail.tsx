@@ -47,7 +47,7 @@ export default function DetailIssue() {
       if (typeof token === "string") {
         try {
           const response = await fetch(
-            `https://kotg-server-531186732263.asia-southeast2.run.app/api/v1/key-otg/sign/${token}?token=${token}`,
+            `http://192.168.1.33:1323/api/v1/key-otg/sign/${token}?token=${token}`,
             {
               headers: {
                 'X-Portier-Agent': X_PORTIER_AGENT,

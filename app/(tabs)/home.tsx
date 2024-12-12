@@ -33,6 +33,7 @@ export default function HomeScreen() {
   const { get } = useStorage();
   const { t } = useTranslation(); 
   const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [key, setKey] = useState(0); // Add a key to force re-render
 
   const handleToken = async () => {
     const token = await get('auth_access_token'); 
@@ -59,6 +60,8 @@ export default function HomeScreen() {
       setLoading(false);
       setRefreshing(false); // Selesai refresh
       console.log("Finished fetching data"); // Debug log
+         // Increment key to force re-render of child components
+      setKey(prevKey => prevKey + 1);
     }
   };
 
@@ -90,6 +93,7 @@ export default function HomeScreen() {
 
   return (
     <ScrollView
+    key={key} 
       refreshControl={
         <RefreshControl 
           refreshing={refreshing} 

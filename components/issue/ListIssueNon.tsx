@@ -68,7 +68,7 @@ export function ListIssueNon({ history }: ListIssueProps) {
       // Make individual API calls for each request ID
       const allIssues = await Promise.all(
         requestIds.map(async (requestId: string) => {
-          const url = `https://kotg-server-531186732263.asia-southeast2.run.app/api/v1/key-otg/sign/${requestId}?token=${requestId}`;
+          const url = `http://192.168.1.33:1323/api/v1/key-otg/sign/${requestId}?token=${requestId}`;
           try {
             const response = await fetch(url, {
               headers: {
