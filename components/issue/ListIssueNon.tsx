@@ -123,6 +123,8 @@ export function ListIssueNon({ history }: ListIssueProps) {
       }
     };
 
+    
+
     loadRequestIds();
   }, [history]); // Refetch data when `history` prop changes
 
