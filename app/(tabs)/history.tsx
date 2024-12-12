@@ -35,6 +35,7 @@ export default function HistoryScreen() {
   const [refreshing, setRefreshing] = useState(false); // State for controlling refresh
   const [requestIds, setRequestIds] = useState<string[]>([]);  // State for request IDs
 
+  // Fungsi untuk mengambil token
   const handleToken = async () => {
     const token = await get('auth_access_token'); // Mengambil token sekali
     if (token) {
@@ -44,6 +45,7 @@ export default function HistoryScreen() {
     }
   };
 
+  // Fungsi untuk mengambil data statistics dan issues
   const fetchData = async () => {
     try {
       setRefreshing(true); // Start the refresh process
@@ -61,17 +63,34 @@ export default function HistoryScreen() {
     }
   };
 
+  // Fungsi untuk menghapus requestIds dari AsyncStorage
   const removeAllRequestIds = async () => {
     try {
       await AsyncStorage.removeItem("requestIds");  // Menghapus semua requestIds dari AsyncStorage
       setRequestIds([]);  // Reset state requestIds
       alert("History telah dihapus");  // Menampilkan pemberitahuan setelah penghapusan
+      router.push('/home');  // Arahkan ke halaman login jika belum login
     } catch (error) {
       console.error("Error removing all requestIds", error);
       alert("Terjadi kesalahan saat menghapus history");
     }
   };
 
+  // Mengambil ulang requestIds setiap kali komponen dibuka
+  const getRequestIds = async () => {
+    try {
+      const storedRequestIds = await AsyncStorage.getItem("requestIds");
+      if (storedRequestIds) {
+        setRequestIds(JSON.parse(storedRequestIds));  // Parse dan simpan data dalam state
+      } else {
+        setRequestIds([]); // Jika tidak ada, set state requestIds kosong
+      }
+    } catch (error) {
+      console.error("Error fetching requestIds", error);
+    }
+  };
+
+  // Menjaga agar orientasi layar tetap dalam mode portrait
   useEffect(() => {
     const makeSurePortrait = async () => {
       await ScreenOrientation.lockAsync(
@@ -81,12 +100,15 @@ export default function HistoryScreen() {
 
     makeSurePortrait();
     handleToken();
-  }, []);
+    getRequestIds();  // Memastikan data requestIds diambil ulang ketika halaman dibuka
+  }, []); // Empty dependency array memastikan hanya dijalankan sekali setelah komponen dimuat
 
+  // Mengambil data issues dan statistics saat komponen dimuat
   useEffect(() => {
     fetchData();
   }, []); // This fetches the initial data when the component mounts
 
+  // Menampilkan spinner saat loading
   if (loading) {
     return (
       <View flex={1} alignItems="center" justifyContent="center">
@@ -95,6 +117,7 @@ export default function HistoryScreen() {
     );
   }
 
+  // Menampilkan error jika ada
   if (error) {
     return (
       <View>
@@ -112,25 +135,25 @@ export default function HistoryScreen() {
       <H4>{t('history')}</H4> {/* Menggunakan key 'recentIssue' */}
       
       {/* Tombol hapus history hanya akan muncul jika user tidak login */}
-      {accessToken === null && (
-     <Button
-     title="Hapus History"
-     onPress={removeAllRequestIds}
-     style={{
-       backgroundColor: '#FF5733',  // Warna latar belakang tombol (oranye)
-       paddingVertical: 12,          // Padding vertikal
-       paddingHorizontal: 20,        // Padding horizontal
-       borderRadius: 8,             // Border radius untuk sudut yang melengkung
-       color: '#fff',               // Warna teks tombol
-       fontWeight: 'bold',           // Font tebal untuk teks tombol
-       alignSelf: 'center',         // Untuk menempatkan tombol di tengah
-       marginTop: 20,
-       marginBottom: 30,               // Jarak atas agar tidak terlalu dekat dengan elemen lain
-     }}
-   >
-     Hapus History
-   </Button>
-      )}
+      {/* {accessToken === null && (
+        // <Button
+        //   title="Hapus History"
+        //   onPress={removeAllRequestIds}
+        //   style={{
+        //     backgroundColor: '#FF5733',  // Warna latar belakang tombol (oranye)
+        //     paddingVertical: 12,          // Padding vertikal
+        //     paddingHorizontal: 20,        // Padding horizontal
+        //     borderRadius: 8,             // Border radius untuk sudut yang melengkung
+        //     color: '#fff',               // Warna teks tombol
+        //     fontWeight: 'bold',           // Font tebal untuk teks tombol
+        //     alignSelf: 'center',         // Untuk menempatkan tombol di tengah
+        //     marginTop: 20,
+        //     marginBottom: 30,            // Jarak atas agar tidak terlalu dekat dengan elemen lain
+        //   }}
+        // >
+        //   Hapus History
+        // </Button>
+      )} */}
       
       {
         accessToken ? (

@@ -14,10 +14,13 @@ import React, { useEffect, useState } from "react";
 import { H4, ScrollView, Spinner, Text, View, XStack } from "tamagui";
 import { RefreshControl } from 'react-native'; // Import RefreshControl dari react-native
 import { useStorage } from '@/hooks/useStorage';
+import { LogBox } from 'react-native';
 
 export default function HomeScreen() {
   const router = useRouter();
-
+  LogBox.ignoreLogs([
+    'Warning: Text strings must be rendered within a <Text> component.',
+  ]);
   const [stats, setStats] = useState<UserStatistics>({
     success: 0,
     pending: 0,

@@ -2,18 +2,13 @@ import { NotificationPop } from "@/components/NotificationPopover";
 import { App } from "@/constants/App";
 import { Colors } from "@/constants/Colors";
 import { useCompany } from "@/hooks/useCompany";
+import { useStorage } from '@/hooks/useStorage';
 import { Tabs } from "expo-router";
 import { Home, Notification, Scan, User } from "iconsax-react-native";
+import React, { useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { useTheme } from "tamagui";
 import '../../i18n'; // Jika i18n.ts berada di root proyek
-import { useTranslation } from 'react-i18next';
-import { useStorage } from '@/hooks/useStorage';
-import React, { useEffect, useState } from "react";
-
-
-  const { t, i18n } = useTranslation();
-
-
 
   const SCREENS = [
     {
