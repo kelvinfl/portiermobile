@@ -6,7 +6,7 @@ export function useStorage() {
     try {
       await SecureStore.setItemAsync(key, value);
     } catch (error) {
-      console.error("[STORAGE] Error saving data:", error);
+      // console.error("[STORAGE] Error saving data:", error);
       throw error;
     }
   };
@@ -24,7 +24,7 @@ export function useStorage() {
         return val;
       }
     } catch (error) {
-      console.error("[STORAGE] Error loading data:", error);
+      // console.error("[STORAGE] Error loading data:", error);
       throw error;
     }
   };
@@ -33,7 +33,7 @@ export function useStorage() {
     try {
       await SecureStore.deleteItemAsync(key);
     } catch (error) {
-      console.error("[STORAGE] Error removing data:", error);
+      // console.error("[STORAGE] Error removing data:", error);
       throw error;
     }
   };

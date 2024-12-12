@@ -16,6 +16,7 @@ interface AuthState {
   isLoading: boolean;
   error: string | null;
   signIn: () => Promise<void>;
+  signOut: () => Promise<void>;
   me: () => Promise<void>;
   authenticate: (token?: string) => Promise<void>;
   getToken: () => Promise<string | null>;
@@ -59,7 +60,7 @@ const useAuthStore = create<AuthState>((set, get) => ({
         throw new Error("Authentication cancelled or failed");
       }
     } catch (error) {
-      handleError(error instanceof Error ? error.message : "Sign-in failed");
+      // handleError(error instanceof Error ? error.message : "Sign-in failed");
     }
   },
   
@@ -74,9 +75,9 @@ const useAuthStore = create<AuthState>((set, get) => ({
         const user = await fetchUserInfo(storedToken);
         useAuthStore.setState({ user, isLoading: false, error: null });
       } catch (error) {
-        handleError(
-          error instanceof Error ? error.message : "Fetch user info failed"
-        );
+        // handleError(
+        //   error instanceof Error ? error.message : "Fetch user info failed"
+        // );
       }
     }
   },
@@ -88,7 +89,7 @@ const useAuthStore = create<AuthState>((set, get) => ({
       set({ user: null, access_token: null }); // Reset state
       console.log("Successfully signed out and token removed.");
     } catch (error) {
-      console.error("Error signing out:", error);
+      // console.error("Error signing out:", error);
     }
   },
   authenticate: async (token?: string) => {
@@ -100,9 +101,9 @@ const useAuthStore = create<AuthState>((set, get) => ({
         const user = await fetchUserInfo(accessToken);
         useAuthStore.setState({ user, isLoading: false, error: null });
       } catch (error) {
-        handleError(
-          error instanceof Error ? error.message : "Fetch user info failed"
-        );
+        // handleError(
+        //   error instanceof Error ? error.message : "Fetch user info failed"
+        // );
       }
     }
   },
@@ -110,7 +111,7 @@ const useAuthStore = create<AuthState>((set, get) => ({
 }));
 
 const handleError = (message: string) => {
-  console.error("[Auth Error]:", message);
+  // console.error("[Auth Error]:", message);
   useAuthStore.setState({ error: message, isLoading: false });
 };
 
@@ -131,19 +132,19 @@ const handleAuth = async (url: string) => {
       const user = await fetchUserInfo(token.access_token);
       useAuthStore.setState({ user, isLoading: false, error: null });
     } catch (error) {
-      handleError(
-        error instanceof Error ? error.message : "Fetch user info failed"
-      );
+      // handleError(
+      //   error instanceof Error ? error.message : "Fetch user info failed"
+      // );
     }
   } catch (error) {
-    handleError(
-      error instanceof Error ? error.message : "Authentication failed"
-    );
+    // handleError(
+    //   error instanceof Error ? error.message : "Authentication failed"
+    // );
   }
 };
 
 export function useSession() {
-  const { user, isLoading, error, signIn, me, getToken, authenticate } =
+  const { user, isLoading, error, signIn, me, getToken, authenticate, signOut } =
     useAuthStore();
 
   useEffect(() => {
@@ -168,6 +169,7 @@ export function useSession() {
     isLoading,
     error,
     signIn,
+    signOut,
     me,
     authenticate,
     getToken,

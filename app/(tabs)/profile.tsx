@@ -13,7 +13,7 @@ import { useRouter } from 'expo-router';
 
 export default function ProfileScreen() {
   const { t, i18n } = useTranslation();
-  const { session } = useSession();  // Menambahkan signOut dari hook useSession
+  const { session, signOut } = useSession();  // Menambahkan signOut dari hook useSession
   const { remove, get, set } = useStorage();  // Menggunakan remove dan get dari useStorage
   const [language, setLanguage] = useState(i18n.language);
   const router = useRouter();  // Router untuk navigasi ke halaman index
@@ -48,8 +48,12 @@ export default function ProfileScreen() {
   };
 
   const handleLogout = async () => {
-    await remove('auth_access_token'); // Hapus session
-    router.push('/');
+    try {
+      await signOut(); // Panggil signOut dari useSession
+      router.push('/'); // Redirect ke halaman login setelah logout
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
 
   // Jika tidak ada session, tampilkan tombol Sign In
