@@ -1,8 +1,8 @@
-import { Colors } from "@/constants/Colors";
-import { addOpacity } from "@/lib/utils";
-import { Status } from "@/types";
-import React from "react";
-import { FontSizeTokens, GetProps, Paragraph, Stack, styled } from "tamagui";
+import { Colors } from '@/constants/Colors';
+import { addOpacity } from '@/lib/utils';
+import { Status } from '@/types';
+import React from 'react';
+import { FontSizeTokens, GetProps, Paragraph, Stack, styled } from 'tamagui';
 
 type StackProps = GetProps<typeof Stack>;
 
@@ -13,12 +13,12 @@ type Props = StackProps & {
 };
 
 const ChipWrapper = styled(Stack, {
-  name: "Chip",
+  name: 'Chip',
   paddingVertical: 6,
   paddingHorizontal: 12,
   borderRadius: 16,
-  alignItems: "center",
-  justifyContent: "center",
+  alignItems: 'center',
+  justifyContent: 'center',
 
   variants: {
     status: {
@@ -39,7 +39,7 @@ const ChipWrapper = styled(Stack, {
 });
 
 const StyledParagraph = styled(Paragraph, {
-  name: "ChipText",
+  name: 'ChipText',
 
   variants: {
     status: {
@@ -51,17 +51,17 @@ const StyledParagraph = styled(Paragraph, {
   } as const,
 });
 
-export const Chip = ({ status, text, textSize = "$2", ...props }: Props) => {
-  let color = Colors.info;
+export const Chip = ({ status, text, textSize = '$2', ...props }: Props) => {
+  let color: string = Colors.info;
 
   switch (status) {
-    case "success":
+    case 'success':
       color = Colors.success;
       break;
-    case "pending":
+    case 'pending':
       color = Colors.warning;
       break;
-    case "failed":
+    case 'failed':
       color = Colors.danger;
       break;
     default:
@@ -70,12 +70,8 @@ export const Chip = ({ status, text, textSize = "$2", ...props }: Props) => {
   }
 
   return (
-    <ChipWrapper status={status || "default"} {...props}>
-      <StyledParagraph
-        status={status || "default"}
-        size={textSize}
-        color={color}
-      >
+    <ChipWrapper status={status || 'default'} {...props}>
+      <StyledParagraph status={status || 'default'} size={textSize} color={color}>
         {text}
       </StyledParagraph>
     </ChipWrapper>

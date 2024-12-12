@@ -11,7 +11,6 @@
   - [Submitting Pull Request](#submitting-pull-request)
   - [Code Review](#code-review)
 
-
 ## About This Project
 
 This project is private, and contributions are made within the company’s internal team. Below are the guidelines for contributing effectively to maintain the codebase and ensure smooth collaboration.
@@ -52,7 +51,6 @@ and change `package.json`
 }
 ```
 
-
 ## Working on Issue
 
 1. **Issue Assignment**: Issues are assigned by the lead or yourself. Once an issue is assigned to you, ensure you fully understand the requirements before starting. Hint: ask.
@@ -75,11 +73,11 @@ refactor/6021-api-user-payload
 3. You may create several branches and PRs for a single issue if needed. E.g. When the implementation is bigger than expected in the initial discussion
 4. Branch types should follow **conventional commit categories** such as:
 
-    * `feat`: Introduce a new feature
-    * `fix`: Fixing a bug
-    * `refactor`: Changing the structure of the code **without altering its external behavior** (no breaking changes)
-    * `chore`: Routine tasks or maintenance changes that **don't affect the logic or functionality of the application**
-    * There are other categories, but we usually use these 4.
+   - `feat`: Introduce a new feature
+   - `fix`: Fixing a bug
+   - `refactor`: Changing the structure of the code **without altering its external behavior** (no breaking changes)
+   - `chore`: Routine tasks or maintenance changes that **don't affect the logic or functionality of the application**
+   - There are other categories, but we usually use these 4.
 
 5. **Trunk-Based Development**: Our project uses a [trunk-based development](https://trunkbaseddevelopment.com/) strategy. Before creating a PR, ensure your branch is always rebased from the latest main. This helps avoid merge conflicts and keeps history clean. **Set Git to Pull with Rebase** before working on a project (only one time).
 
@@ -105,28 +103,28 @@ $ git pull origin main
 $ git push origin feat/1234-add-user-table
 ```
 
-Ps: More advanced usage is separating `git pull` to `git fetch origin` and `git rebase origin/main`, using `git diff` in between.  
+Ps: More advanced usage is separating `git pull` to `git fetch origin` and `git rebase origin/main`, using `git diff` in between.
 
 6. You may need to solve a conflict after pull from main. By selecting the correct code, you should be fine. Please discuss with your peer that has last commit in main. Tricks to get less conflict:
-    * Working on small changes or small number of files. Break the task to smaller action.
-    * Make sure you pull before create a new branch
-    * Make sure you are not stalling a branch for too long (several days)
-    * Sometimes you better to stash your changes before pull, then apply it
+   - Working on small changes or small number of files. Break the task to smaller action.
+   - Make sure you pull before create a new branch
+   - Make sure you are not stalling a branch for too long (several days)
+   - Sometimes you better to stash your changes before pull, then apply it
 
 ## Writting Commit Messages
 
-**Before you commit**: 
+**Before you commit**:
 
-* Please check what you want to commit.
-* Make sure every file that will be committed already saved and in the staging area.
-* Make sure there is no hard coded credential in code or in a file that should be ignored.
-* Well, you are welcome to commit often actually.
+- Please check what you want to commit.
+- Make sure every file that will be committed already saved and in the staging area.
+- Make sure there is no hard coded credential in code or in a file that should be ignored.
+- Well, you are welcome to commit often actually.
 
 We are following [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/), please read it. Scope that we use:
 
-* Type: `feat`, `fix`, `refactor` and `chore`. To simplify, other type like `ci`, `docs`, `test` will be in the `chore`.
-* If there is implementation that not finished yet, please write a `TODO: your msg` in your code and tell it in the body.
-* If there is a breaking changes, write it in the body what and why it change
+- Type: `feat`, `fix`, `refactor` and `chore`. To simplify, other type like `ci`, `docs`, `test` will be in the `chore`.
+- If there is implementation that not finished yet, please write a `TODO: your msg` in your code and tell it in the body.
+- If there is a breaking changes, write it in the body what and why it change
 
 > About Breaking Changes:<br /><br />
 > When you write something that make your user to change their behaviour, then it's a Breaking Changes.<br />
@@ -144,7 +142,6 @@ For commit with description (e.g. a breaking changes), you can run `git commit` 
 - Press `i` to enter `insert mode`.
 - After you finish writing your message, press `esc` or `ctrl+c` to enter `normal mode`
 - In normal mode, press `:wq` to write and quit or `:q!` to exit without saving.
-
 
 ## Submitting Pull Request
 
@@ -165,8 +162,8 @@ For commit with description (e.g. a breaking changes), you can run `git commit` 
 
 1. **Prepare the PR for Review**
 
-* Rebase from main: Ensure your branch is rebased with the latest main branch to prevent conflicts.
-* Verify All Checks Pass: Make sure all tests and automated checks pass before requesting a review.
+- Rebase from main: Ensure your branch is rebased with the latest main branch to prevent conflicts.
+- Verify All Checks Pass: Make sure all tests and automated checks pass before requesting a review.
 
 1. **Notify Reviewers Manually**
 
@@ -175,14 +172,15 @@ Don’t rely solely on GitHub notifications. Mention the peer reviewers in your 
 1. **Collaborative Benefits of Code Review**
 
 Skill Development:
-* **Senior-to-Junior**: Senior developers can guide juniors, ensuring code is functional and aligns with standards.
-* **Junior-to-Senior**: Junior reviewers can learn best practices and observe how complex features are built.
-* **Peer-to-Peer**: Peers can engage in discussions that enhance skills and broaden their approach to problem-solving.
+
+- **Senior-to-Junior**: Senior developers can guide juniors, ensuring code is functional and aligns with standards.
+- **Junior-to-Senior**: Junior reviewers can learn best practices and observe how complex features are built.
+- **Peer-to-Peer**: Peers can engage in discussions that enhance skills and broaden their approach to problem-solving.
 
 1. **PR Size and Readability**
 
-* **Small, Focused PRs**: Aim to submit small, focused PRs for easier review. Large PRs that are difficult to read **should be rejected**, except in special cases.
-* **Constructive Feedback Only**: Reviews should be objective, focusing on code improvements, not personal judgments.
+- **Small, Focused PRs**: Aim to submit small, focused PRs for easier review. Large PRs that are difficult to read **should be rejected**, except in special cases.
+- **Constructive Feedback Only**: Reviews should be objective, focusing on code improvements, not personal judgments.
 
 1. **Handling Long Discussions**
 
@@ -190,5 +188,5 @@ Move Extended Discussions Elsewhere: If a discussion is likely to be lengthy, co
 
 1. **Approvals and Merging**
 
-* Reviewers indicate approval by labeling the PR as approved.
-* The author is then responsible for ensuring a final rebase, confirming a squash and merge for clean commit history, and completing the merge (press the merge button and celebrate 🎉).
+- Reviewers indicate approval by labeling the PR as approved.
+- The author is then responsible for ensuring a final rebase, confirming a squash and merge for clean commit history, and completing the merge (press the merge button and celebrate 🎉).

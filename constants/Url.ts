@@ -1,4 +1,4 @@
-import { env } from "@/lib/env";
+import { env } from '@/lib/env';
 
 export const Url = {
   auth: {
@@ -7,5 +7,10 @@ export const Url = {
     userInfo: `${env.authUrl}/application/o/userinfo/`,
     authorize: `${env.authUrl}/application/o/authorize/`,
   },
-  api: {},
+  api: {
+    sign: {
+      base: `${env.apiBaseUrl}/key-otg/sign`,
+      auth: `${env.apiBaseUrl}/key-otg/auth/sign`,
+    },
+  },
 };

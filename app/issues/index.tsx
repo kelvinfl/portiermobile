@@ -1,13 +1,13 @@
-import { fetchIssues, searchIssues } from "@/api/issue";
-import { ListIssue } from "@/components/issue/ListIssue";
-import { Issue } from "@/types/issue";
-import { SearchNormal } from "iconsax-react-native";
-import React, { useEffect, useState } from "react";
-import { Button, Input, useTheme, View, XStack } from "tamagui";
+import { fetchIssues, searchIssues } from '@/api/issue';
+import { ListIssue } from '@/components/issue/ListIssue';
+import { Issue } from '@/types/issue';
+import { SearchNormal } from 'iconsax-react-native';
+import React, { useEffect, useState } from 'react';
+import { Button, Input, useTheme, View, XStack } from 'tamagui';
 
 export default function IssuesScreen() {
   const theme = useTheme();
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState<Issue[]>([]);
 
   const handleSearch = async () => {
@@ -15,7 +15,7 @@ export default function IssuesScreen() {
       const results = await searchIssues(searchQuery);
       setResults(results);
     } catch (error) {
-      console.error("Error searching:", error);
+      console.log('err', error);
     }
   };
 
@@ -24,8 +24,8 @@ export default function IssuesScreen() {
       try {
         const actvities = await fetchIssues({ limit: 5 });
         setResults(actvities);
-      } catch (err) {
-        console.error("Error fetching issues:", err);
+      } catch (error) {
+        console.log('err', error);
       }
     };
     fetchData();

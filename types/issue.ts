@@ -1,6 +1,6 @@
-import { Location, Status } from ".";
+import { Location, Status } from '.';
 
-export type IssueType = "send" | "receive";
+export type IssueType = 'send' | 'receive';
 
 export type Issue = {
   issueId: number;

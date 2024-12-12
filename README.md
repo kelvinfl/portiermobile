@@ -36,7 +36,7 @@ npm start
 
 Before contributing, please check [`CONTRIBUTING.md`](./CONTRIBUTING.md) and [`STYLE_GUIDE.md`](./STYLE_GUIDE.md).
 
-After that, you can try to modify [`app/(tabs)/index.tsx`](./app/(tabs)/index.tsx) to change your home screen.
+After that, you can try to modify [`app/(tabs)/index.tsx`](<./app/(tabs)/index.tsx>) to change your home screen.
 
 You can also create a new page in nested folder `/path/to/page.tsx` and use `<Link>` to navigate to the page.
 

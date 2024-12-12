@@ -1,22 +1,20 @@
-import { fetchKeys, searchKeys } from "@/api/key";
-import { ListKey } from "@/components/keys/ListKey";
-import { Key } from "@/types/key";
-import { SearchNormal } from "iconsax-react-native";
-import React, { useEffect, useState } from "react";
-import { Button, Input, useTheme, View, XStack } from "tamagui";
+import { fetchKeys, searchKeys } from '@/api/key';
+import { ListKey } from '@/components/keys/ListKey';
+import { Key } from '@/types/key';
+import { SearchNormal } from 'iconsax-react-native';
+import React, { useEffect, useState } from 'react';
+import { Button, Input, useTheme, View, XStack } from 'tamagui';
 
 export default function KeysScreen() {
   const theme = useTheme();
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState<Key[]>([]);
 
   const handleSearch = async () => {
     try {
       const results = await searchKeys(searchQuery);
       setResults(results);
-    } catch (error) {
-      console.error("Error searching:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -24,9 +22,7 @@ export default function KeysScreen() {
       try {
         const actvities = await fetchKeys({ limit: 5 });
         setResults(actvities);
-      } catch (err) {
-        console.error("Error fetching keys:", err);
-      }
+      } catch (err) {}
     };
     fetchData();
   }, []);

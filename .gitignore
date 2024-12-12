@@ -44,3 +44,5 @@ expo-env.d.ts
 # ios/
 
 .env
+
+.tamagui/

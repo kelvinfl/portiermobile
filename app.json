@@ -27,10 +27,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": [
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO"
-      ],
+      "permissions": ["android.permission.CAMERA", "android.permission.RECORD_AUDIO"],
       "package": "com.portierglobal.keyonthego"
     },
     "web": {
@@ -71,8 +68,7 @@
           }
         }
       ],
-      "expo-secure-store",
-      "expo-sqlite"
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true

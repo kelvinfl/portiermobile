@@ -1,7 +1,7 @@
-import { Colors } from "@/constants/Colors";
-import { User } from "iconsax-react-native";
-import React from "react";
-import { Avatar, Card, H4, Paragraph, View } from "tamagui";
+import { Colors } from '@/constants/Colors';
+import { User } from 'iconsax-react-native';
+import React from 'react';
+import { Avatar, Card, H4, Paragraph, View } from 'tamagui';
 
 type Props = {
   session: Record<string, any> | null;

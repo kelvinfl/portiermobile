@@ -1,24 +1,22 @@
-import React, { useEffect } from "react";
-
-import { StyleSheet } from "react-native";
-import Toast from "react-native-toast-message";
-import { Button, H1, Image, Text, XStack, YStack, ZStack } from "tamagui";
-import { useSession } from "@/hooks/useSession";
-import '../i18n'; // Jika i18n.ts berada di root proyek
-import { useTranslation } from "react-i18next"; // Impor hook useTranslation
-import { Redirect, useRouter } from "expo-router";
-import * as ScreenOrientation from "expo-screen-orientation";
-import * as WebBrowser from "expo-web-browser";
-import { GreetingBottomBlob } from "@/components/blobs/GreetingBottom";
-import { GreetingTopBlob } from "@/components/blobs/GreetingTop";
-import { Colors } from "@/constants/Colors";
-
+import { GreetingBottomBlob } from '@/components/blobs/GreetingBottom';
+import { GreetingTopBlob } from '@/components/blobs/GreetingTop';
+import { Colors } from '@/constants/Colors';
+import { useSession } from '@/hooks/useSession';
+import { Redirect, useRouter } from 'expo-router';
+import * as ScreenOrientation from 'expo-screen-orientation';
+import * as WebBrowser from 'expo-web-browser';
+import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { StyleSheet } from 'react-native';
+import Toast from 'react-native-toast-message';
+import { Button, H1, Image, Text, XStack, YStack, ZStack } from 'tamagui';
+import '../i18n';
 
 WebBrowser.maybeCompleteAuthSession();
 
 export default function Index() {
   const { signIn, session, error } = useSession();
-  const { t, i18n } = useTranslation(); // Inisialisasi hook useTranslation
+  const { t } = useTranslation();
   const router = useRouter();
 
   useEffect(() => {
@@ -40,8 +38,8 @@ export default function Index() {
   useEffect(() => {
     if (error) {
       Toast.show({
-        type: "error",
-        text1: "An error occurred",
+        type: 'error',
+        text1: 'An error occurred',
         text2: error,
       });
     }
@@ -64,18 +62,11 @@ export default function Index() {
       <GreetingBottomBlob style={styles.bottomBlob} />
 
       {/* Main Content */}
-      <YStack
-        flex={1}
-        padding="$4"
-        gap="$4"
-        justifyContent="center"
-        alignItems="center"
-        fullscreen
-      >
+      <YStack flex={1} padding="$4" gap="$4" justifyContent="center" alignItems="center" fullscreen>
         {/* Image Banner */}
         <XStack justifyContent="center">
           <Image
-            source={require("../assets/images/banner/greeting.png")}
+            source={require('../assets/images/banner/greeting.png')}
             style={styles.bannerImage}
           />
         </XStack>
@@ -83,24 +74,23 @@ export default function Index() {
         {/* Headline and Description */}
         <YStack gap="$2" marginTop={-50}>
           <H1 color="white" textAlign="center" size="$9">
-            {t('greeting')} {/* Gunakan terjemahan */}
+            {t('greeting')}
           </H1>
           <Text color="$white8" fontSize="$4" textAlign="center">
-            {t('description')} {/* Gunakan terjemahan */}
+            {t('description')}
           </Text>
         </YStack>
 
         {/* Buttons */}
-        <YStack gap="$3" marginTop="$4" width={"90%"}>
+        <YStack gap="$3" marginTop="$4" width={'90%'}>
           <Button
             size="$5"
             backgroundColor="white"
             color={Colors.primary}
             borderRadius="$12"
             themeInverse
-            onPress={() => signIn()}
-          >
-            {t('signIn')} {/* Gunakan terjemahan */}
+            onPress={() => signIn()}>
+            {t('signIn')}
           </Button>
 
           <Button
@@ -110,9 +100,8 @@ export default function Index() {
             color="white"
             borderRadius="$12"
             themeInverse
-            onPress={() => router.push("/home")}
-          >
-            {t('continueWithoutSignIn')} {/* Gunakan terjemahan */}
+            onPress={() => router.push('/home')}>
+            {t('continueWithoutSignIn')}
           </Button>
         </YStack>
       </YStack>
@@ -122,17 +111,17 @@ export default function Index() {
 
 const styles = StyleSheet.create({
   topBlob: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
-    width: "100%",
+    width: '100%',
     height: 200,
   },
   bottomBlob: {
-    position: "absolute",
+    position: 'absolute',
     bottom: -18,
     right: -32,
-    width: "100%",
+    width: '100%',
     height: 491,
   },
   bannerImage: {

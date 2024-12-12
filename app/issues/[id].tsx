@@ -1,13 +1,13 @@
-import { getIssueById } from "@/api/issue";
-import { Chip } from "@/components/Chip";
-import { IssueIcon } from "@/components/issue/IssueIcon";
-import { Colors } from "@/constants/Colors";
-import { capitalizeFirstLetter } from "@/lib/utils";
-import { Issue } from "@/types/issue";
-import { useLocalSearchParams, useNavigation } from "expo-router";
-import { Location } from "iconsax-react-native";
-import React, { useEffect, useState } from "react";
-import { Card, Image, Spinner, Text, View } from "tamagui";
+import { getIssueById } from '@/api/issue';
+import { Chip } from '@/components/Chip';
+import { IssueIcon } from '@/components/issue/IssueIcon';
+import { Colors } from '@/constants/Colors';
+import { capitalizeFirstLetter } from '@/lib/utils';
+import { Issue } from '@/types/issue';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { Location } from 'iconsax-react-native';
+import React, { useEffect, useState } from 'react';
+import { Card, Image, Spinner, Text, View } from 'tamagui';
 
 export default function DetailIssue2() {
   const { id } = useLocalSearchParams();
@@ -16,7 +16,7 @@ export default function DetailIssue2() {
 
   useEffect(() => {
     const fetchIssue = async () => {
-      if (typeof id === "string") {
+      if (typeof id === 'string') {
         const issue = await getIssueById(parseInt(id));
         setIssue(issue);
       }
@@ -27,9 +27,9 @@ export default function DetailIssue2() {
 
   useEffect(() => {
     if (issue) {
-      let status = "Transfer key";
-      if (issue.type === "receive") {
-        status = "Receive key";
+      let status = 'Transfer key';
+      if (issue.type === 'receive') {
+        status = 'Receive key';
       }
       navigation.setOptions({ headerTitle: status });
     }
@@ -85,12 +85,7 @@ export default function DetailIssue2() {
           <Text fontSize={12} fontWeight={400}>
             Status:
           </Text>
-          <Chip
-            px="$2"
-            py="$1"
-            status={issue.status}
-            text={capitalizeFirstLetter(issue.status)}
-          />
+          <Chip px="$2" py="$1" status={issue.status} text={capitalizeFirstLetter(issue.status)} />
         </View>
         <View fd="row" ai="center" gap="$2">
           <Text fontSize={12} fontWeight={400}>
@@ -112,10 +107,7 @@ export default function DetailIssue2() {
           <Text fontSize={12} fontWeight={400}>
             Signature:
           </Text>
-          <Image
-            source={{ uri: issue?.signatureImage }}
-            style={{ width: 100, height: 100 }}
-          />
+          <Image source={{ uri: issue?.signatureImage }} style={{ width: 100, height: 100 }} />
         </View>
       </Card>
     </View>

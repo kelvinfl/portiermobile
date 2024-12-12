@@ -1,30 +1,27 @@
-import { Chip } from "@/components/Chip";
-import { IssueIcon } from "@/components/issue/IssueIcon";
-import { Colors } from "@/constants/Colors";
-import { capitalizeFirstLetter } from "@/lib/utils";
-import { useLocalSearchParams, useNavigation } from "expo-router";
-import { Location } from "iconsax-react-native";
-import React, { useEffect, useState } from "react";
-import { Card, Image, Spinner, Text, View } from "tamagui";
+import { Chip } from '@/components/Chip';
+import { IssueIcon } from '@/components/issue/IssueIcon';
+import { capitalizeFirstLetter } from '@/lib/utils';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 import MapView, { Marker } from 'react-native-maps';
+import { Card, Image, Spinner, Text, View } from 'tamagui';
 
-// Define the shape of the fetched issue response
 type IssueResponse = {
   data: {
     created_at: string;
     holder_id: string;
     holder_name: string;
-    issue: Array<{
+    issue: {
       copy: number;
       description: string;
       number: string;
-    }>;
+    }[];
     location_latitude: number;
     location_longitude: number;
     notes: string;
     request_id: string;
     request_user: string;
-    sign: string;  // This will be the base64 encoded string for the signature
+    sign: string;
     signed_at: string;
     status: string;
     updated_at: string;
@@ -34,8 +31,8 @@ type IssueResponse = {
 };
 
 export default function DetailIssue() {
-  const { id } = useLocalSearchParams();  // Get the token from the URL parameters
-  const [issue, setIssue] = useState<IssueResponse["data"] | null>(null);
+  const { id } = useLocalSearchParams();
+  const [issue, setIssue] = useState<IssueResponse['data'] | null>(null);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
   const params = useLocalSearchParams();
@@ -44,7 +41,7 @@ export default function DetailIssue() {
 
   useEffect(() => {
     const fetchIssue = async () => {
-      if (typeof token === "string") {
+      if (typeof token === 'string') {
         try {
           const response = await fetch(
             `https://kotg-server-531186732263.asia-southeast2.run.app/api/v1/key-otg/sign/${token}?token=${token}`,
@@ -52,21 +49,19 @@ export default function DetailIssue() {
               headers: {
                 'X-Portier-Agent': X_PORTIER_AGENT,
               },
-            }
+            },
           );
           const result = await response.json();
-          if (result.status === "success" && result.data) {
+          if (result.status === 'success' && result.data) {
             setIssue(result.data);
-            let status = "Transfer key";
-            if (result.data.issue[0]?.description === "receive") {
-              status = "Receive key";
+            let status = 'Transfer key';
+            if (result.data.issue[0]?.description === 'receive') {
+              status = 'Receive key';
             }
             navigation.setOptions({ headerTitle: status });
-          } else {
-            console.error("Error fetching issue data:", result.message);
           }
         } catch (error) {
-          console.error("Error fetching issue:", error);
+          console.log('err', error);
         } finally {
           setLoading(false);
         }
@@ -74,7 +69,7 @@ export default function DetailIssue() {
     };
 
     fetchIssue();
-  }, [id, navigation]);
+  }, [id, navigation, token]);
 
   if (loading) {
     return (
@@ -106,7 +101,6 @@ export default function DetailIssue() {
         </View>
       </Card>
 
-      {/* Peta dengan Marker */}
       <Card padded bordered gap="$2">
         <MapView
           style={{ width: '100%', height: 200 }}
@@ -115,8 +109,7 @@ export default function DetailIssue() {
             longitude: issue.location_longitude,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
-          }}
-        >
+          }}>
           <Marker
             coordinate={{
               latitude: issue.location_latitude,
@@ -133,12 +126,7 @@ export default function DetailIssue() {
           <Text fontSize={12} fontWeight={400}>
             Status:
           </Text>
-          <Chip
-            px="$2"
-            py="$1"
-            status={issue.status}
-            text={capitalizeFirstLetter(issue.status)}
-          />
+          <Chip px="$2" py="$1" status={issue.status} text={capitalizeFirstLetter(issue.status)} />
         </View>
         <View fd="row" ai="center" gap="$2">
           <Text fontSize={12} fontWeight={400}>
@@ -160,7 +148,6 @@ export default function DetailIssue() {
           <Text fontSize={12} fontWeight={400}>
             Signature:
           </Text>
-          {/* Render the base64 signature image */}
           {issue.sign && (
             <Image
               source={{ uri: `data:image/png;base64,${issue.sign}` }}

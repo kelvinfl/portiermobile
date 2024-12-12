@@ -1,6 +1,6 @@
-import type { BarcodeScanningResult } from "expo-camera";
-import { CameraView } from "expo-camera";
-import { View } from "tamagui";
+import type { BarcodeScanningResult } from 'expo-camera';
+import { CameraView } from 'expo-camera';
+import { View } from 'tamagui';
 
 interface ScannerProps {
   width: number;
@@ -20,9 +20,8 @@ export const Scanner = ({ width, onScan, isActive }: ScannerProps) => {
       h={dimensions.height}
       style={{
         borderRadius: 16,
-        overflow: "hidden",
-      }}
-    >
+        overflow: 'hidden',
+      }}>
       <CameraView
         facing="back"
         style={{

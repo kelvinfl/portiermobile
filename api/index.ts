@@ -1,12 +1,9 @@
+/* global RequestInit*/
 export function getRandomDateOrUndefined() {
   return Math.random() > 0.5 ? new Date().toISOString() : undefined;
 }
 
-export const apiRequest = async (
-  url: string,
-  options: RequestInit,
-  errorMessage: string
-) => {
+export const apiRequest = async (url: string, options: RequestInit, errorMessage: string) => {
   try {
     const response = await fetch(url, options);
     if (!response.ok) {

@@ -1,8 +1,8 @@
-import { useToastController } from "@tamagui/toast";
-import Constants from "expo-constants";
-import * as Device from "expo-device";
-import * as Notifications from "expo-notifications";
-import { useEffect, useRef, useState } from "react";
+import { useToastController } from '@tamagui/toast';
+import Constants from 'expo-constants';
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+import { useEffect, useRef, useState } from 'react';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -13,15 +13,14 @@ Notifications.setNotificationHandler({
 });
 
 export function useNotification() {
+  const toast = useToastController();
   const [isAllowed, setIsAllowed] = useState(false);
   const [expoPushToken, setExpoPushToken] = useState<string | null>(null);
-  const [notification, setNotification] = useState<
-    Notifications.Notification | undefined
-  >(undefined);
-
-  const notificationListener = useRef<Notifications.EventSubscription | null>(
-    null
+  const [notification, setNotification] = useState<Notifications.Notification | undefined>(
+    undefined,
   );
+
+  const notificationListener = useRef<Notifications.EventSubscription | null>(null);
   const responseListener = useRef<Notifications.EventSubscription | null>(null);
 
   useEffect(() => {
@@ -33,25 +32,20 @@ export function useNotification() {
         }
       })
       .catch((error) => {
-        console.error("Push notification registration failed:", error);
         setIsAllowed(false);
       });
 
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
-        setNotification(notification);
-      });
+    notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
+      setNotification(notification);
+    });
 
-    responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log("Notification response received:", response);
-      });
+    responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
+      console.log('Notification response received:', response);
+    });
 
     return () => {
       if (notificationListener.current) {
-        Notifications.removeNotificationSubscription(
-          notificationListener.current
-        );
+        Notifications.removeNotificationSubscription(notificationListener.current);
       }
       if (responseListener.current) {
         Notifications.removeNotificationSubscription(responseListener.current);
@@ -60,10 +54,9 @@ export function useNotification() {
   }, []);
 
   function handleRegistrationError(message: string) {
-    const toast = useToastController();
-    toast.show("Notification Error", {
+    toast.show('Notification Error', {
       message,
-      variant: "error",
+      variant: 'error',
       duration: 3000,
       onClose: () => setIsAllowed(false),
     });
@@ -72,43 +65,35 @@ export function useNotification() {
 
   async function registerForPushNotificationsAsync(): Promise<string | null> {
     if (!Device.isDevice) {
-      handleRegistrationError(
-        "Push notifications only work on physical devices."
-      );
+      handleRegistrationError('Push notifications only work on physical devices.');
       return null;
     }
 
     try {
-      const { status: existingStatus } =
-        await Notifications.getPermissionsAsync();
+      const { status: existingStatus } = await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
 
-      if (existingStatus !== "granted") {
+      if (existingStatus !== 'granted') {
         const { status } = await Notifications.requestPermissionsAsync();
         finalStatus = status;
       }
 
-      if (finalStatus !== "granted") {
-        handleRegistrationError(
-          "Permission not granted to get push token for push notifications."
-        );
+      if (finalStatus !== 'granted') {
+        handleRegistrationError('Permission not granted to get push token for push notifications.');
         return null;
       }
 
       const projectId =
-        Constants.expoConfig?.extra?.eas?.projectId ??
-        Constants.easConfig?.projectId;
+        Constants.expoConfig?.extra?.eas?.projectId ?? Constants.easConfig?.projectId;
 
       if (!projectId) {
-        handleRegistrationError("Project ID not found.");
+        handleRegistrationError('Project ID not found.');
         return null;
       }
 
-      const pushToken = (
-        await Notifications.getExpoPushTokenAsync({ projectId })
-      ).data;
+      const pushToken = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
 
-      console.log("Expo push token:", pushToken);
+      console.log('Expo push token:', pushToken);
       return pushToken;
     } catch (error) {
       handleRegistrationError(`Failed to get push token: ${error}`);

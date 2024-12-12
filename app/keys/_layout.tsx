@@ -1,6 +1,6 @@
-import { Stack } from "expo-router";
-import React from "react";
-import { useTheme } from "tamagui";
+import { Stack } from 'expo-router';
+import React from 'react';
+import { useTheme } from 'tamagui';
 
 export default function KeyLayout() {
   const theme = useTheme();
@@ -11,18 +11,17 @@ export default function KeyLayout() {
         headerStyle: {
           backgroundColor: theme.background.val,
         },
-      }}
-    >
+      }}>
       <Stack.Screen
         name="index"
         options={{
-          headerTitle: "Key List",
+          headerTitle: 'Key List',
         }}
       />
       <Stack.Screen
         name="[id]"
         options={{
-          headerTitle: "Key",
+          headerTitle: 'Key',
         }}
       />
     </Stack>

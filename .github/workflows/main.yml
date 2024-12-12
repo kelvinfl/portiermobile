@@ -1,0 +1,21 @@
+name: Main CI/CD Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  code-review:
+    uses: ./.github/workflows/code-review.yml
+    with:
+      branch: ${{ github.ref_name }}
+
+  eas-build:
+    if: github.event_name == 'push'
+    uses: ./.github/workflows/eas-build.yml
+    with:
+      branch: ${{ github.ref_name }}

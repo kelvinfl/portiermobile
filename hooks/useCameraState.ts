@@ -1,7 +1,7 @@
-import { useIsFocused } from "@react-navigation/native";
-import { useCameraPermissions } from "expo-camera";
-import { useNavigation } from "expo-router";
-import { useEffect, useState } from "react";
+import { useIsFocused } from '@react-navigation/native';
+import { useCameraPermissions } from 'expo-camera';
+import { useNavigation } from 'expo-router';
+import { useEffect, useState } from 'react';
 
 export const useCameraState = () => {
   const [permission, requestPermission] = useCameraPermissions();
@@ -10,7 +10,7 @@ export const useCameraState = () => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener("beforeRemove", () => {
+    const unsubscribe = navigation.addListener('beforeRemove', () => {
       setIsCameraActive(false);
     });
 

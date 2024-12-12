@@ -1,5 +1,5 @@
-export type Status = "pending" | "success" | "failed";
-export type ToastVariant = "success" | "error" | "info" | "warning";
+export type Status = 'pending' | 'success' | 'failed';
+export type ToastVariant = 'success' | 'error' | 'info' | 'warning';
 
 export type Location = {
   name: string;
@@ -7,3 +7,9 @@ export type Location = {
   longitude: number;
   latitude: number;
 };
+
+export interface ApiResponse<T> {
+  success: string;
+  message: string;
+  data: T;
+}

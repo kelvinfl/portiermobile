@@ -1,12 +1,12 @@
-import { getKeyById } from "@/api/key";
-import { Colors } from "@/constants/Colors";
-import { Key } from "@/types/key";
-import { useLocalSearchParams, useNavigation } from "expo-router";
-import { Location } from "iconsax-react-native";
-import React, { useEffect, useState } from "react";
-import { Card, Spinner, Text, View } from "tamagui";
-import '../../i18n'; // Jika i18n.ts berada di root proyek
-import { useTranslation } from "react-i18next"; // Impor hook useTranslation
+import { getKeyById } from '@/api/key';
+import { Colors } from '@/constants/Colors';
+import { Key } from '@/types/key';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { Location } from 'iconsax-react-native';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Card, Spinner, Text, View } from 'tamagui';
+import '../../i18n';
 
 export default function DetailKey() {
   const { id } = useLocalSearchParams();
@@ -15,7 +15,7 @@ export default function DetailKey() {
 
   useEffect(() => {
     const fetchKey = async () => {
-      if (typeof id === "string") {
+      if (typeof id === 'string') {
         const key = await getKeyById(parseInt(id));
         setKey(key);
       }
@@ -23,10 +23,10 @@ export default function DetailKey() {
 
     fetchKey();
   }, [id]);
-  const { t, i18n } = useTranslation(); // Inisialisasi hook useTranslation
+  const { t } = useTranslation();
   useEffect(() => {
     if (key) {
-      navigation.setOptions({ headerTitle: key.name });
+      navigation.setOptions({ headerTitle: key.holder_name });
     }
   }, [key, navigation]);
 
@@ -43,7 +43,7 @@ export default function DetailKey() {
       <Card padded bordered fd="row" ai="center" gap="$2">
         <View>
           <Text fontSize={12} fontWeight={400}>
-            {key?.name}
+            {key?.holder_name}
           </Text>
           <Text fontSize={12} fontWeight={400}>
             {key?.pic}
@@ -65,17 +65,6 @@ export default function DetailKey() {
             </Text>
           </View>
         </View>
-        {/* TODO: add flag via firebase remote config */}
-        {/* {(Platform.OS === "ios" || Platform.OS === "android") && (
-          <MapView
-            initialRegion={{
-              latitude: issue?.location?.latitude || 0,
-              longitude: issue?.location?.longitude || 0,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-          />
-        )} */}
       </Card>
       <Card padded bordered gap="$2">
         <View fd="row" ai="center" gap="$2">
@@ -88,7 +77,7 @@ export default function DetailKey() {
         </View>
         <View fd="row" ai="center" gap="$2">
           <Text fontSize={12} fontWeight={400}>
-          {t('updatedAt')}
+            {t('updatedAt')}
           </Text>
           <Text fontSize={12} fontWeight={400}>
             {new Date(key.updatedAt || new Date()).toLocaleString()}

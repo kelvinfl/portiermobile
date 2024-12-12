@@ -1,7 +1,7 @@
-import { Notification } from "iconsax-react-native";
-import { FlatList } from "react-native";
-import type { PopoverProps } from "tamagui";
-import { Button, Popover, Text, XStack, YStack } from "tamagui";
+import { Notification } from 'iconsax-react-native';
+import { FlatList } from 'react-native';
+import type { PopoverProps } from 'tamagui';
+import { Button, Popover, Text, XStack, YStack } from 'tamagui';
 
 type Props = {
   tintColor?: string;
@@ -41,24 +41,23 @@ export function NotificationPop({
         elevate
         mr="$2.5"
         animation={[
-          "quick",
+          'quick',
           {
             opacity: {
               overshootClamping: true,
             },
           },
-        ]}
-      >
+        ]}>
         <Popover.Arrow borderWidth={1} borderColor="$borderColor" />
 
-        <YStack gap="$3" width={"$20"}>
+        <YStack gap="$3" width={'$20'}>
           <FlatList
             data={[
-              { key: "1", title: "Notification 1", message: "Message 1" },
-              { key: "2", title: "Notification 2", message: "Message 2" },
-              { key: "3", title: "Notification 3", message: "Message 3" },
-              { key: "4", title: "Notification 4", message: "Message 4" },
-              { key: "5", title: "Notification 5", message: "Message 5" },
+              { key: '1', title: 'Notification 1', message: 'Message 1' },
+              { key: '2', title: 'Notification 2', message: 'Message 2' },
+              { key: '3', title: 'Notification 3', message: 'Message 3' },
+              { key: '4', title: 'Notification 4', message: 'Message 4' },
+              { key: '5', title: 'Notification 5', message: 'Message 5' },
             ]}
             renderItem={({ item }) => <Text>{item.title}</Text>}
           />
